@@ -59,7 +59,7 @@ class Migrate {
     function ask($prompt) {
         echo $prompt;
         $input = fgets(STDIN);
-        return rtrim($input, "\n");
+        return trim($input);
     }
 
 }

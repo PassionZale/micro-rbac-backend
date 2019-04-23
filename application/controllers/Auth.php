@@ -2,27 +2,50 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Auth extends CI_Controller {
+require_once APPPATH . 'libraries/REST_Controller.php';
+
+use Restserver\Libraries\REST_Controller;
+
+class Auth extends REST_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->library("authorization");
+        $this->load->library('authorization');
     }
 
-    public function encode() {
-        $data = array(
-            "iss" => "http://example.org",
-            "aud" => "http://example.com",
-            "iat" => 1356999524,
-            "nbf" => 1357000000,
-        );
-        echo $this->authorization->generateToken($data);
+    public function login_post() {
+        $username = $this->post('username');
+        $password = $this->post('password');
+
+        $query = $this->db->select('id, password, is_active')->where('username', $username)->get("auth_user");
+        $user = $query->row_array();
+
+        if ($user) {
+            if ($user['is_active'] == 1) {
+                $verify = password_verify($password, $user['password']);
+                if ($verify) {
+                    $data = array(
+                        'userId' => $user['id'],
+                    );
+                    $jwt = $this->authorization->generateToken($data);
+                    return $this->response(array(
+                                'data' => $jwt,
+                                'message' => '登录成功'
+                                    ), 200);
+                } else {
+                    return $this->response(["message" => "账户或密码错误"], 401);
+                }
+            } else {
+                return $this->response(["message" => "该账户已被禁用"], 403);
+            }
+        }
+        return $this->response(["message" => "账户或密码错误"], 401);
     }
 
-    public function decode() {
-        $jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9leGFtcGxlLm9yZyIsImF1ZCI6Imh0dHA6XC9cL2V4YW1wbGUuY29tIiwiaWF0IjoxMzU2OTk5NTI0LCJuYmYiOjEzNTcwMDAwMDAsImV4cCI6MTU1NTk4Mzg5NX0.a2vOY_Sd-ex8KuovKb7uKWINFblpaTOK8sj9Xi8YTkM";
-        $result =  $this->authorization->validateToken($jwt);
-        var_dump($result);
+    public function user_get() {
+        $jwt = $this->head("Authorization");
+        $data = $this->authorization->validateToken($jwt);
+        $this->response(['data' => $data]);
     }
 
 }

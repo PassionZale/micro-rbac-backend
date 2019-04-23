@@ -30,7 +30,7 @@ class Migration_Create_Auth_User_Table extends CI_Migration {
                 'constraint' => '1',
                 'default' => 0,
             ),
-            'actived' => array(
+            'is_active' => array(
                 'comment' => '是否禁用账号 ? 0: 禁用; 1: 启用',
                 'type' => 'TINYINT',
                 'constraint' => '1',
