@@ -36,17 +36,10 @@ class Migration_Create_Auth_User_Table extends CI_Migration {
                 'constraint' => '1',
                 'default' => 1,
             ),
-            'created_at' => array(
-                'comment' => '创建时间',
-                'type' => 'DATETIME',
-                'null' => TRUE
-            ),
-            'updated_at' => array(
-                'comment' => '编辑时间',
-                'type' => 'DATETIME',
-                'null' => TRUE
-            ),
         ));
+        $this->dbforge->add_field("created_at TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间'");
+        $this->dbforge->add_field("updated_at TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'");
+        
         $this->dbforge->add_key('id', TRUE);
         $this->dbforge->create_table('auth_user');
     }

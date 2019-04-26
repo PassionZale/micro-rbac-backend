@@ -23,8 +23,7 @@ class AuthUser extends CI_Model {
         if ($is_superuser) {
             $data['is_superuser'] = 1;
         }
-        $data["created_at"] = date('Y-m-d H:i:s');
-        $data["updated_at"] = date('Y-m-d H:i:s');
+        $data["created_at"] = NULL;
         return $this->db->insert('auth_user', $data);
     }
 
