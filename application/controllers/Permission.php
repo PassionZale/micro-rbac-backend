@@ -27,9 +27,16 @@ class Permission extends REST_Controller {
     public function index_post() {
         $data = array(
             "name" => $this->post("name"),
-            "code" => $this->post("code")
+            "code" => $this->post("code"),
+            "route" => $this->post("route")
         );
-        $this->AuthPermission->createItem($data);
+        $result = $this->AuthPermission->createItem($data);
+        $result ? $this->response(array(
+                            "message" => "操作成功",
+                        )) :
+                        $this->response(array(
+                            "message" => "操作失败",
+                                ), 400);
     }
 
     public function index_put() {

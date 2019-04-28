@@ -20,8 +20,9 @@ class AuthPermission extends CI_Model{
         
     }
 
-    public function createItem() {
-        
+    public function createItem($data = array()) {
+        $data["created_at"] = NULL;
+        return $this->db->insert("auth_permission", $data);
     }
 
     public function deleteItem() {
