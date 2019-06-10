@@ -2,17 +2,19 @@
 
 class AuthUser extends CI_Model {
 
+    protected $tableName = "auth_user";
+
     public function __construct() {
         parent::__construct();
     }
 
     public function all($condition = array()) {
-        $query = $this->db->where($condition)->get("auth_user");
+        $query = $this->db->where($condition)->get($this->tableName);
         return $query->result_array();
     }
 
     public function show($condition = array()) {
-        $query = $this->db->where($condition)->get("auth_user");
+        $query = $this->db->where($condition)->get($this->tableName);
         return $query->row_array();
     }
 
@@ -24,7 +26,7 @@ class AuthUser extends CI_Model {
             $data['is_superuser'] = 1;
         }
         $data["created_at"] = time();
-        return $this->db->insert('auth_user', $data);
+        return $this->db->insert($this->tableName, $data);
     }
 
 }
