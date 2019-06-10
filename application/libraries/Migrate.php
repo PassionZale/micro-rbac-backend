@@ -18,7 +18,7 @@ class Migrate {
         }
 
         echo "Make migration successfully! \n";
-        echo "Next please run `php index.php make superuser` to create a superuser!";
+        echo "Next run `php index.php make superuser` to create a superuser!";
     }
 
     public function makeSupserUser() {
@@ -50,7 +50,8 @@ class Migrate {
         $result = $this->CI->AuthUser->create($data, TRUE);
 
         if ($result) {
-            echo "Superuser has been created successfully!";
+            echo "Superuser has been created successfully! \n";
+            echo "Next run `php index.php make server` to start via Built-in web server!";
         } else {
             echo "Superuser creation failed, please try again...";
         }

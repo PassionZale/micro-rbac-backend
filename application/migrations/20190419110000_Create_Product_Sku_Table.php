@@ -35,18 +35,25 @@ class Migration_Create_Product_Sku_Table extends CI_Migration {
                 'type' => 'INT',
                 'constraint' => 11,
             ),
+            'price' => array(
+                'comment' => '价格',
+                'type' => 'DECIMAL',
+                'constraint' => '12,2',
+                'default' => 0.00
+            ),
             'created_at' => array(
                 'comment' => '创建时间',
-                'type' => 'TIMESTAMP',
-                'null' => TRUE
+                'type' => 'BIGINT',
+                'constraint' => '20',
             ),
             'updated_at' => array(
                 'comment' => '更新时间',
-                'type' => 'TIMESTAMP',
+                'type' => 'BIGINT',
+                'constraint' => '20',
                 'null' => TRUE
             )
         ));
-        $this->dbforge->add_field("price DECIMAL(12,2) NOT NULL DEFAULT '0.00' COMMENT '价格'");
+//        $this->dbforge->add_field("price DECIMAL(12,2) NOT NULL DEFAULT '0.00' COMMENT '价格'");
         $this->dbforge->add_key('id', TRUE);
         $this->dbforge->create_table('product_sku');
     }

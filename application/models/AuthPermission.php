@@ -17,12 +17,12 @@ class AuthPermission extends CI_Model {
     }
 
     public function update($id, $data) {
-        $data["updated_at"] = current_date();
+        $data["updated_at"] = time();
         return $this->db->where("id", $id)->update("auth_permission", $data);
     }
 
     public function create($data = array()) {
-        $data["created_at"] = current_date();
+        $data["created_at"] = time();
         return $this->db->insert("auth_permission", $data);
     }
 

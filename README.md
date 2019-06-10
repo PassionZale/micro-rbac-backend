@@ -24,7 +24,7 @@ php index.php make server
 
 ### Controler
 
-- index_get GET 请求资源集合
+- index_get 请求资源集合
 
 - index_get($id) 查询指定资源
 
