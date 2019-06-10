@@ -34,11 +34,19 @@ class Migration_Create_Product_Sku_Table extends CI_Migration {
                 'comment' => '库存',
                 'type' => 'INT',
                 'constraint' => 11,
+            ),
+            'created_at' => array(
+                'comment' => '创建时间',
+                'type' => 'TIMESTAMP',
+                'null' => TRUE
+            ),
+            'updated_at' => array(
+                'comment' => '更新时间',
+                'type' => 'TIMESTAMP',
+                'null' => TRUE
             )
         ));
         $this->dbforge->add_field("price DECIMAL(12,2) NOT NULL DEFAULT '0.00' COMMENT '价格'");
-        $this->dbforge->add_field("created_at TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间'");
-        $this->dbforge->add_field("updated_at TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'");
         $this->dbforge->add_key('id', TRUE);
         $this->dbforge->create_table('product_sku');
     }

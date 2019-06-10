@@ -5,7 +5,7 @@ class AuthUser extends CI_Model {
     public function __construct() {
         parent::__construct();
     }
-    
+
     public function all($condition = array()) {
         $query = $this->db->where($condition)->get("auth_user");
         return $query->result_array();
@@ -23,7 +23,7 @@ class AuthUser extends CI_Model {
         if ($is_superuser) {
             $data['is_superuser'] = 1;
         }
-        $data["created_at"] = NULL;
+        $data["created_at"] = current_date();
         return $this->db->insert('auth_user', $data);
     }
 

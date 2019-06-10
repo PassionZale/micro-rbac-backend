@@ -1,32 +1,33 @@
 <?php
 
-class AuthPermission extends CI_Model{
+class AuthPermission extends CI_Model {
 
     function __construct() {
         parent::__construct();
     }
 
-    public function getAll($condition = array()) {
+    public function all($condition = array()) {
         $query = $this->db->where($condition)->get("auth_permission");
         return $query->result_array();
     }
 
-    public function getItem($condition = array()) {
+    public function show($condition = array()) {
         $query = $this->db->where($condition)->get("auth_permission");
         return $query->row_array();
     }
 
-    public function updateItem() {
-        
+    public function update($id, $data) {
+        $data["updated_at"] = current_date();
+        return $this->db->where("id", $id)->update("auth_permission", $data);
     }
 
-    public function createItem($data = array()) {
-        $data["created_at"] = NULL;
+    public function create($data = array()) {
+        $data["created_at"] = current_date();
         return $this->db->insert("auth_permission", $data);
     }
 
-    public function deleteItem() {
-        
+    public function delete($id) {
+        return $this->db->where("id", $id)->delete("auth_permission");
     }
 
 }
