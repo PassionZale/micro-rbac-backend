@@ -68,14 +68,6 @@ if (!function_exists('http_get')) {
 
 }
 
-if (!function_exists('current_date')) {
-
-    function current_date() {
-        return date('Y-m-d H:i:s');
-    }
-
-}
-
 if (!function_exists('echoText')) {
 
     /**
@@ -168,15 +160,6 @@ if (!function_exists('toJson')) {
      */
     function toJson($arr) {
         return print_r(json_encode($arr), true);
-    }
-
-}
-
-if (!function_exists('parse_reqeust_data')) {
-
-    function parse_reqeust_data() {
-        $data = file_get_contents('php://input');
-        return json_decode($data, true);
     }
 
 }
