@@ -16,7 +16,7 @@ class Auth extends CI_Controller {
         $password = $data["password"];
 
         $condition = array("username" => $username);
-        $user = $this->AuthUser->show($condition);
+        $user = $this->AuthUser->show($condition, TRUE);
 
         if ($user) {
             if ($user["is_active"] == 1) {
