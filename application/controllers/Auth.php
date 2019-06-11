@@ -2,11 +2,7 @@
 
 defined("BASEPATH") OR exit("No direct script access allowed");
 
-require_once APPPATH . "libraries/REST_Controller.php";
-
-use Restserver\Libraries\REST_Controller;
-
-class Auth extends REST_Controller {
+class Auth extends CI_Controller {
 
     function __construct() {
         parent::__construct();
@@ -15,8 +11,9 @@ class Auth extends REST_Controller {
     }
 
     public function login_post() {
-        $username = $this->post("username");
-        $password = $this->post("password");
+        $data = $this->request->get_request_data();
+        $username = $data["username"];
+        $password = $data["password"];
 
         $condition = array("username" => $username);
         $user = $this->AuthUser->show($condition);
@@ -29,24 +26,25 @@ class Auth extends REST_Controller {
                         "userId" => $user["id"],
                     );
                     $jwt = $this->authorization->generateToken($data);
-                    return $this->response(array(
-                                "data" => $jwt,
-                                "message" => "登录成功"
-                                    ), 200);
+                    return $this->response->success($jwt);
                 } else {
-                    return $this->response(["message" => "账户或密码错误"], 401);
+                    return $this->response->fail("账户或密码错误");
                 }
             } else {
-                return $this->response(["message" => "该账户已被禁用"], 403);
+                return $this->response->fail("该账户已被禁用");
             }
         }
-        return $this->response(["message" => "账户或密码错误"], 401);
+        return $this->response->fail("账户或密码错误");
     }
 
     public function user_get() {
-        $jwt = $this->head("Authorization");
-        $data = $this->authorization->validateToken($jwt);
-        $this->response(["data" => $data]);
+        $jwt = $this->request->get_request_header('Authorization');
+        try {
+            $data = $this->authorization->validateToken($jwt);
+            return $this->response->success($data);
+        } catch (Exception $ex) {
+            return $this->response->fail($ex->getMessage(), $ex->getCode());
+        }
     }
 
 }

@@ -7,7 +7,6 @@ use \Firebase\JWT\JWT;
 class Authorization {
 
     protected $CI;
-    
     private $key;
     private $alg;
     private $exp;
@@ -34,16 +33,16 @@ class Authorization {
             return (array) $decoded;
         } catch (\Firebase\JWT\SignatureInvalidException $e) {
             // 签名不正确
-            return $e->getMessage();
+            throw new Exception($e->getMessage(), 11001);
         } catch (\Firebase\JWT\BeforeValidException $e) {
             // 签名在某个时间点之后才能用
-            return $e->getMessage();
+            throw new Exception($e->getMessage(), 11002);
         } catch (\Firebase\JWT\ExpiredException $e) {
             // JWT 过期
-            return $e->getMessage();
+            throw new Exception($e->getMessage(), 11003);
         } catch (Exception $e) {
             //其他错误
-            return $e->getMessage();
+            throw new Exception($e->getMessage(), 11000);
         }
     }
 

@@ -20,8 +20,21 @@ class AuthRole extends CI_Model {
     }
 
     public function update($id, $data) {
-        $data["updated_at"] = time();
-        return $this->db->where("id", $id)->update($this->tableName, $data);
+        if (isset($data["permissionIds"])) {
+            $this->db->where("role_id", $id)->delete($this->relationTableName);
+            foreach ($data["permissionIds"] as $permissionId) {
+                $rolePermission = array(
+                    "role_id" => $id,
+                    "permission_id" => $permissionId
+                );
+                $this->db->insert($this->relationTableName, $rolePermission);
+            }
+        }
+        return $this->db->where("id", $id)->update($this->tableName, array(
+                    "name" => $data["name"],
+                    "code" => $data["code"],
+                    "updated_at" => time()
+        ));
     }
 
     public function create($data = array()) {
@@ -61,6 +74,7 @@ class AuthRole extends CI_Model {
     }
 
     public function delete($id) {
+        $this->db->where("role_id", $id)->delete($this->relationTableName);
         return $this->db->where("id", $id)->delete($this->tableName);
     }
 
