@@ -25,6 +25,7 @@ class PermissionHook {
                 if (!$user["is_active"] == 1) {
                     exit_json_response(403, 11000, "账户被禁用", "response by PERMISSION hook");
                 } else {
+                    // 判断是否包含所需要的权限
                     $method = $this->CI->request->get_request_method();
                     $permission_route = "$method.$source";
                     var_dump("permission_route");
