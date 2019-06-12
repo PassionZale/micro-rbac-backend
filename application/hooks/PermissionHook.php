@@ -19,9 +19,9 @@ class PermissionHook {
             $jwt = $this->CI->request->get_request_jwt();
             $data = $this->CI->authorization->validateToken($jwt);
             $user = $this->CI->AuthUser->userinfo($data["user_id"]);
-            // 若不为超级用户, 则开始权限校验
+            // 判断是否为超级用户
             if (!$user["is_superuser"] == 1) {
-                // 若账户被禁用
+                // 判断账户禁用状态
                 if (!$user["is_active"] == 1) {
                     exit_json_response(403, 11000, "账户被禁用", "response by PERMISSION hook");
                 } else {
@@ -31,7 +31,7 @@ class PermissionHook {
                     $valid = self::has_permission($user["permissions"], $permission_route);
                     if (!$valid) {
                         $permission_need = $this->CI->AuthPermission->show(array("route" => $permission_route));
-                        exit_json_response(403, 11000, '权限不足, 此操作需要"' . $permission_need['name'] . '"权限', "response by PERMISSION hook");
+                        exit_json_response(403, 11000, '权限不足,此操作需要权限:' . $permission_need['name'], "response by PERMISSION hook");
                     }
                 }
             }
