@@ -10,10 +10,10 @@ $hook['post_controller_constructor'][] = array(
     'params' => []
 );
 
-//$hook['post_controller_constructor'][] = array(
-//    'class' => 'PermissionHook',
-//    'function' => 'index',
-//    'filename' => 'PermissionHook.php',
-//    'filepath' => 'hooks',
-//    'params' => []
-//);
+$hook['post_controller_constructor'][] = array(
+    'class' => 'PermissionHook',
+    'function' => 'index',
+    'filename' => 'PermissionHook.php',
+    'filepath' => 'hooks',
+    'params' => []
+);

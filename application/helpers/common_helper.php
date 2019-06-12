@@ -68,98 +68,20 @@ if (!function_exists('http_get')) {
 
 }
 
-if (!function_exists('echoText')) {
+if (!function_exists('exit_json_response')) {
 
-    /**
-     * 输出Text
-     * @param type $arr
-     * @return boolean
-     */
-    function echoText($arr) {
-        header('Content-Type: text/plain; charset=utf-8');
-        if (strpos(PHP_VERSION, '5.3') > -1) {
-            // php 5.3-
-            echo json_encode($arr);
-        } else {
-            // php 5.4+
-            echo json_encode($arr, JSON_UNESCAPED_UNICODE);
-        }
-        return true;
-    }
-
-}
-
-if (!function_exists('echoMsg')) {
-
-    /**
-     * 输出JSON消息
-     * @param type $code
-     * @param type $msg
-     * @return type
-     */
-    function echoMsg($code, $msg = '') {
-        return echoJson(array(
-            'ret_code' => $code,
-            'ret_msg' => $msg
-        ));
-    }
-
-}
-
-if (!function_exists('echoSuccess')) {
-
-    /**
-     * 输出成功JSON消息
-     * @param string $msg
-     */
-    function echoSuccess($msg = 'success') {
-        echoMsg(0, $msg);
-    }
-
-}
-
-if (!function_exists('echoFail')) {
-
-    /**
-     * 输出失败JSON消息
-     * @param string $msg
-     */
-    function echoFail($msg = 'failed') {
-        echoMsg(-1, $msg);
-    }
-
-}
-
-if (!function_exists('echoJson')) {
-
-    /**
-     * 输出Json
-     * @param type $arr
-     * @return boolean
-     */
-    function echoJson($arr) {
+    function exit_json_response($http_code, $code, $message, $data = "response by JWT hook") {
+        header('Cache-Control: no-cache, must-revalidate');
         header('Content-Type: application/json; charset=utf-8');
-        if (strpos(PHP_VERSION, '5.3') > -1) {
-            // php 5.3-
-            echo json_encode($arr);
-        } else {
-            // php 5.4+
-            echo json_encode($arr, JSON_UNESCAPED_UNICODE);
-        }
-        return true;
-    }
-
-}
-
-if (!function_exists('toJson')) {
-
-    /**
-     * 数组转JSON
-     * @param type $arr
-     * @return type
-     */
-    function toJson($arr) {
-        return print_r(json_encode($arr), true);
+        set_status_header($http_code);
+        $response = array(
+            "code" => $code,
+            "data" => $data,
+            "message" => $message,
+            "success" => FALSE,
+            "time" => time()
+        );
+        exit(json_encode($response));
     }
 
 }

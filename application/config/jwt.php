@@ -5,4 +5,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['jwt_key'] = 'jwt_key_for_lovchun.com';
 $config['jwt_alg'] = 'HS256';
 $config['jwt_leeway'] = 50;
-$config['jwt_exp'] = 7 * 24 * 60 * 60;
+$config['jwt_exp'] = 60 * 24 * 60 * 60;

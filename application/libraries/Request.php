@@ -25,5 +25,9 @@ class Request {
     public function get_request_header($key) {
         return $this->CI->input->get_request_header($key, TRUE);
     }
+    
+    public function get_request_jwt() {
+        return self::get_request_header("Authorization");
+    }
 
 }

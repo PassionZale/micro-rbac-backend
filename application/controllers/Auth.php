@@ -23,7 +23,7 @@ class Auth extends CI_Controller {
                 $verify = password_verify($password, $user["password"]);
                 if ($verify) {
                     $data = array(
-                        "userId" => $user["id"],
+                        "user_id" => $user["id"],
                     );
                     $jwt = $this->authorization->generateToken($data);
                     return $this->response->success($jwt);
@@ -38,13 +38,10 @@ class Auth extends CI_Controller {
     }
 
     public function user_get() {
-        $jwt = $this->request->get_request_header('Authorization');
-        try {
-            $data = $this->authorization->validateToken($jwt);
-            return $this->response->success($data);
-        } catch (Exception $ex) {
-            return $this->response->fail($ex->getMessage(), $ex->getCode());
-        }
+        $jwt = $this->request->get_request_jwt();
+        $data = $this->authorization->validateToken($jwt);
+        $response = $this->AuthUser->userinfo($data["user_id"]);
+        return $this->response->success($response);
     }
 
 }

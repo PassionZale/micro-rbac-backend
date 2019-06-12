@@ -93,7 +93,7 @@ class AuthUser extends CI_Model {
             $this->db->trans_begin();
 
             $this->db->where("user_id", $id)->delete($this->relationTableName);
-            
+
             foreach ($data["roleIds"] as $roleId) {
                 $userRole = array(
                     "user_id" => $id,
@@ -116,6 +116,37 @@ class AuthUser extends CI_Model {
         } else {
             return TRUE;
         }
+    }
+
+    public function userinfo($id) {
+        // 查询用户信息
+        $data = self::show(array("id" => $id));
+
+        // 查询角色信息
+        $this->db->select("ar.id, ar.name, ar.code");
+        $this->db->from("auth_role as ar");
+        $this->db->join("auth_user_role as aur", "aur.role_id = ar.id");
+        $this->db->where("aur.user_id", $id);
+        $query = $this->db->get();
+        $data["roles"] = $query->result_array();
+
+        // 查询权限信息
+        if (count($data["roles"])) {
+            $roleIds = [];
+            foreach ($data["roles"] as $role) {
+                array_push($roleIds, $role["id"]);
+            }
+            $this->db->distinct("ap.id");
+            $this->db->select("ap.id, ap.name, ap.code, ap.route");
+            $this->db->from("auth_permission as ap");
+            $this->db->join("auth_role_permission as arp", "ap.id = arp.permission_id");
+            $this->db->where_in("arp.role_id", $roleIds);
+            $query = $this->db->get();
+            $data["permissions"] = $query->result_array();
+        } else {
+            $data["permissions"] = [];
+        }
+        return $data;
     }
 
 }
