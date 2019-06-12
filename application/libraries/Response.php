@@ -35,8 +35,8 @@ class Response {
         $this->set_response($data);
     }
 
-    public function fail($message = "失败", $code = 10001) {
-        $this->set_response(NULL, $message, $code);
+    public function fail($message = "失败", $code = 10001, $http_code = 200) {
+        $this->set_response(NULL, $message, $code, $http_code);
     }
 
 }

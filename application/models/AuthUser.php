@@ -11,14 +11,14 @@ class AuthUser extends CI_Model {
 
     public function all($condition = array(), $password = FALSE) {
         $arguments = "id, username, is_active, is_superuser, created_at, updated_at";
-        $password && ($arguments += ", password");
+        $password && ($arguments .= ", password");
         $query = $this->db->select($arguments)->where($condition)->get($this->tableName);
         return $query->result_array();
     }
 
     public function show($condition = array(), $password = FALSE) {
         $arguments = "id, username, is_active, is_superuser, created_at, updated_at";
-        $password && ($arguments += ", password");
+        $password && ($arguments .= ", password");
         $query = $this->db->select($arguments)->where($condition)->get($this->tableName);
         return $query->row_array();
     }
