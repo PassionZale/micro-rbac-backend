@@ -28,11 +28,15 @@ class PermissionHook {
                     // 判断是否包含所需要的权限
                     $method = $this->CI->request->get_request_method();
                     $permission_route = "$method.$source";
-                    var_dump("permission_route");
-                    $valid = self::has_permission($user["permissions"], $permission_route);
-                    if (!$valid) {
-                        $permission_need = $this->CI->AuthPermission->show(array("route" => $permission_route));
-                        exit_json_response(403, 11000, '权限不足,此操作需要权限:' . $permission_need['name'], "response by PERMISSION hook");
+                    // 判断 permission route 是否存在于 auth_permission 表中
+                    $permission_route_exit = $this->CI->AuthPermission->show(array("route" => $permission_route));
+                    if ($permission_route_exit) {
+                        // 判断用户是否拥有 permission route 权限
+                        $valid = self::has_permission($user["permissions"], $permission_route);
+                        if (!$valid) {
+                            $permission_need = $this->CI->AuthPermission->show(array("route" => $permission_route));
+                            exit_json_response(403, 11000, '权限不足,此操作需要权限:' . $permission_need['name'], "response by PERMISSION hook");
+                        }
                     }
                 }
             }

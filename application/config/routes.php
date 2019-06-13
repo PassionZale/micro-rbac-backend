@@ -30,3 +30,10 @@ $route['users']['GET'] = 'user/index_get';
 $route['users/(:num)']['GET'] = 'user/index_get/$1';
 $route['users/(:num)']['DELETE'] = 'user/index_delete/$1';
 $route['users/(:num)']['PUT'] = 'user/index_put/$1';
+
+// Brand
+$route['brand']['POST'] = 'brand/index_post';
+$route['brands']['GET'] = 'brand/index_get';
+$route['brands/(:num)']['GET'] = 'brand/index_get/$1';
+$route['brands/(:num)']['DELETE'] = 'brand/index_delete/$1';
+$route['brands/(:num)']['PUT'] = 'brand/index_put/$1';
