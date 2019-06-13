@@ -1,9 +1,8 @@
 <?php
 
-class BrandModel extends CI_Model {
+class CategoryModel extends CI_Model {
 
-    protected $tableName = "brand";
-    protected $relationTableName = "product";
+    protected $tableName = "category";
 
     function __construct() {
         parent::__construct();
@@ -30,7 +29,7 @@ class BrandModel extends CI_Model {
     }
 
     public function delete($id) {
-        // TODO 判断品牌是否被关联
+        // TODO 判断分类是否被关联
         return $this->db->where("id", $id)->delete($this->tableName);
     }
 
