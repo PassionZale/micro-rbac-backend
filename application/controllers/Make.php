@@ -23,7 +23,7 @@ class Make extends CI_Controller {
     }
 
     public function server() {
-        $ipAndPort = "127.0.0.1:8000";
+        $ipAndPort = "127.0.0.1:18000";
         echo "Project is runing at http://$ipAndPort \n";
         echo "Press Ctrl-C to quit";
         shell_exec("php -S $ipAndPort");
