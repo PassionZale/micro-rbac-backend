@@ -13,6 +13,18 @@ class AuthPermission extends CI_Model {
         return $query->result_array();
     }
 
+    public function page_list($params = array()) {
+        $this->db->select("*");
+        $this->db->from($this->tableName);
+        isset($params["name"]) && $this->db->like("name", $params["name"]);
+        isset($params["code"]) && $this->db->like("code", $params["code"]);
+        isset($params["route"]) && $this->db->like("route", $params["route"]);
+        $total = $this->db->count_all_results("", FALSE);
+        $this->db->limit($params["pageSize"], ($params["page"] - 1) * $params["pageSize"]);
+        $list = $this->db->get()->result_array();
+        return ["total" => $total, "list" => $list, "page" => $params["page"], "pageSize" => $params["pageSize"]];
+    }
+
     public function show($condition = array()) {
         $query = $this->db->where($condition)->get($this->tableName);
         return $query->row_array();

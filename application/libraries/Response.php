@@ -38,5 +38,9 @@ class Response {
     public function fail($message = "失败", $code = 10001, $http_code = 400) {
         $this->set_response(NULL, $message, $code, $http_code);
     }
+    
+    public function not_found() {
+        $this->set_response(NULL, "无法查询指定资源", 10001, 404);
+    }
 
 }
