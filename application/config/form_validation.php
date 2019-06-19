@@ -37,6 +37,25 @@ $config = [
             'errors' => array(
                 'required' => '请填写%s',
             )
+        )
+    ),
+    
+    'role' => array(
+        array(
+            'field' => 'name',
+            'label' => '角色名称',
+            'rules' => 'trim|required',
+            'errors' => array(
+                'required' => '请填写%s',
+            )
         ),
+        array(
+            'field' => 'code',
+            'label' => '角色编码',
+            'rules' => 'trim|required',
+            'errors' => array(
+                'required' => '请填写%s',
+            )
+        )
     ),
 ];

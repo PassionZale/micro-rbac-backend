@@ -13,6 +13,7 @@ $route['auth/user']['GET'] = 'auth/user_get';
 // Permission
 $route['permission']['POST'] = 'permission/index_post';
 $route['permissions']['GET'] = 'permission/index_get';
+$route['permissions/format/(:any)']['GET'] = 'permission/format_get/$1';
 $route['permissions/(:num)']['GET'] = 'permission/index_get/$1';
 $route['permissions/(:num)']['DELETE'] = 'permission/index_delete/$1';
 $route['permissions/(:num)']['PUT'] = 'permission/index_put/$1';

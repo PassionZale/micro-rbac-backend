@@ -22,6 +22,16 @@ class Permission extends CI_Controller {
         $this->response->success($data);
     }
 
+    public function format_get($format = NULL) {
+        $formats = ["checkbox", "select"];
+        if (in_array($format, $formats)) {
+            $data = $this->AuthPermission->all();
+            $this->response->success($data);
+        } else {
+            $this->response->not_found();
+        }
+    }
+
     public function index_post() {
         $data = $this->request->get_request_data();
         $this->form_validation->set_data($data);
