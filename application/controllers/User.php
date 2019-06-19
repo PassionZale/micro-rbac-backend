@@ -7,6 +7,7 @@ class User extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model("AuthUser");
+        $this->load->library('form_validation');
     }
 
     public function index_get($id = NULL) {
@@ -14,15 +15,22 @@ class User extends CI_Controller {
         if ($id) {
             $data = $this->AuthUser->show(array("id" => $id));
         } else {
-            $data = $this->AuthUser->all();
+            $params = $this->input->get();
+            $data = $this->AuthUser->page_list($params);
         }
         $this->response->success($data);
     }
 
     public function index_post() {
         $data = $this->request->get_request_data();
-        $result = $this->AuthUser->create($data);
-        $result ? $this->response->success() : $this->response->fail();
+        $this->form_validation->set_data($data);
+        if ($this->form_validation->run("user_create") === FALSE) {
+            $errors = $this->form_validation->error_array();
+            $this->response->fail(current($errors));
+        } else {
+            $result = $this->AuthUser->create($data);
+            $result ? $this->response->success() : $this->response->fail();
+        }
     }
 
     public function index_put($id = NULL) {

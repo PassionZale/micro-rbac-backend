@@ -21,6 +21,7 @@ $route['permissions/(:num)']['PUT'] = 'permission/index_put/$1';
 // Role
 $route['role']['POST'] = 'role/index_post';
 $route['roles']['GET'] = 'role/index_get';
+$route['roles/format/(:any)']['GET'] = 'role/format_get/$1';
 $route['roles/(:num)']['GET'] = 'role/index_get/$1';
 $route['roles/(:num)']['DELETE'] = 'role/index_delete/$1';
 $route['roles/(:num)']['PUT'] = 'role/index_put/$1';

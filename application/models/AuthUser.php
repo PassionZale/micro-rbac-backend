@@ -16,6 +16,17 @@ class AuthUser extends CI_Model {
         return $query->result_array();
     }
 
+    public function page_list($params = array()) {
+        $this->db->select("id, username, is_active, is_superuser, created_at, updated_at");
+        $this->db->from($this->tableName);
+        isset($params["username"]) && $this->db->like("username", $params["username"]);
+        $total = $this->db->count_all_results("", FALSE);
+        $this->db->order_by("created_at", "DESC");
+        $this->db->limit($params["pageSize"], ($params["page"] - 1) * $params["pageSize"]);
+        $list = $this->db->get()->result_array();
+        return ["total" => $total, "list" => $list, "page" => $params["page"], "pageSize" => $params["pageSize"]];
+    }
+
     public function show($condition = array(), $password = FALSE) {
         $arguments = "id, username, is_active, is_superuser, created_at, updated_at";
         $password && ($arguments .= ", password");
