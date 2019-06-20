@@ -85,13 +85,9 @@ class AuthUser extends CI_Model {
     }
 
     public function update($id, $data) {
-        $options = ['cost' => 8];
-        $pwd_hash = password_hash($data['password'], PASSWORD_DEFAULT, $options);
-
         $result = $this->db->where("id", $id)->update($this->tableName, array(
             "username" => $data["username"],
-            "password" => $pwd_hash,
-            "is_superuser" => $is_superuser,
+            "is_superuser" => $data["is_superuser"],
             "is_active" => $data["is_active"],
             "updated_at" => time()
         ));
@@ -127,6 +123,16 @@ class AuthUser extends CI_Model {
         } else {
             return TRUE;
         }
+    }
+    
+    public function update_password($id, $password) {
+        $options = ['cost' => 8];
+        $pwd_hash = password_hash($password, PASSWORD_DEFAULT, $options);
+        $result = $this->db->where("id", $id)->update($this->tableName, array(
+            "password" => $pwd_hash,
+            "updated_at" => time()
+        ));
+        return $result;
     }
 
     public function userinfo($id) {

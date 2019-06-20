@@ -31,6 +31,7 @@ $route['user']['POST'] = 'user/index_post';
 $route['users']['GET'] = 'user/index_get';
 $route['users/(:num)']['GET'] = 'user/index_get/$1';
 $route['users/(:num)']['DELETE'] = 'user/index_delete/$1';
+$route['users/(:num)/password']['PUT'] = 'user/password_put/$1';
 $route['users/(:num)']['PUT'] = 'user/index_put/$1';
 
 // Brand

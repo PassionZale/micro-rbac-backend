@@ -39,6 +39,7 @@ $config = [
             )
         )
     ),
+    
     'role' => array(
         array(
             'field' => 'name',
@@ -88,4 +89,37 @@ $config = [
             )
         )
     ),
+    
+    'user_update' => array(
+        array(
+            'field' => 'username',
+            'label' => '用户名',
+            'rules' => 'trim|required|regex_match[/^[a-zA-Z][a-zA-Z0-9_]{4,15}$/]',
+            'errors' => array(
+                'required' => '请填写%s',
+                'regex_match' => '%s必须以字母开头，长度在5~16之间，只能包含字母、数字和下划线',
+            )
+        )
+    ),
+    
+    'user_password_update' => array(
+        array(
+            'field' => 'password',
+            'label' => '密码',
+            'rules' => 'trim|required|regex_match[/^[a-zA-Z]\w{5,17}$/]',
+            'errors' => array(
+                'required' => '请填写%s',
+                'regex_match' => '%s必须以字母开头，长度在6~18之间，只能包含字母、数字和下划线',
+            )
+        ),
+        array(
+            'field' => 'passwordConfirm',
+            'label' => '确认密码',
+            'rules' => 'trim|required|matches[password]',
+            'errors' => array(
+                'required' => '请再次填写密码',
+                'matches' => '两次填写的密码不相同'
+            )
+        )
+    )
 ];

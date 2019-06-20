@@ -35,8 +35,26 @@ class User extends CI_Controller {
 
     public function index_put($id = NULL) {
         $data = $this->request->get_request_data();
-        $result = $this->AuthUser->update($id, $data);
-        $result ? $this->response->success() : $this->response->fail();
+        $this->form_validation->set_data($data);
+        if ($this->form_validation->run("user_update") === FALSE) {
+            $errors = $this->form_validation->error_array();
+            $this->response->fail(current($errors));
+        } else {
+            $result = $this->AuthUser->update($id, $data);
+            $result ? $this->response->success() : $this->response->fail();
+        }
+    }
+    
+    public function password_put($id = NULL) {
+        $data = $this->request->get_request_data();
+        $this->form_validation->set_data($data);
+        if ($this->form_validation->run("user_password_update") === FALSE) {
+            $errors = $this->form_validation->error_array();
+            $this->response->fail(current($errors));
+        } else {
+            $result = $this->AuthUser->update_password($id, $data["password"]);
+            $result ? $this->response->success() : $this->response->fail();
+        }
     }
 
     public function index_delete($id = NULL) {
