@@ -126,12 +126,23 @@ $config = [
     'brand' => array(
         array(
             'field' => 'name',
-            'label' => '用户名',
+            'label' => '品牌名称',
             'rules' => 'trim|required',
             'errors' => array(
                 'required' => '请填写%s',
             )
         ),
         $sort
+    ),
+    
+    'property' => array(
+        array(
+            'field' => 'name',
+            'label' => '属性组名称',
+            'rules' => 'trim|required',
+            'errors' => array(
+                'required' => '请填写%s',
+            )
+        ),
     )
 ];

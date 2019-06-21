@@ -7,7 +7,6 @@ class Permission extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model("AuthPermission");
-        $this->load->library('form_validation');
     }
 
     public function index_get($id = NULL) {
@@ -23,8 +22,7 @@ class Permission extends CI_Controller {
     }
 
     public function format_get($format = NULL) {
-        $formats = ["checkbox", "select"];
-        if (in_array($format, $formats)) {
+        if (in_array($format, unserialize(FORMAT_GROUPS))) {
             $data = $this->AuthPermission->all();
             $this->response->success($data);
         } else {

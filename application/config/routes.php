@@ -41,6 +41,14 @@ $route['brands/(:num)']['GET'] = 'brand/index_get/$1';
 $route['brands/(:num)']['DELETE'] = 'brand/index_delete/$1';
 $route['brands/(:num)']['PUT'] = 'brand/index_put/$1';
 
+// Property
+$route['property']['POST'] = 'property/index_post';
+$route['properties']['GET'] = 'property/index_get';
+$route['properties/format/(:any)']['GET'] = 'property/format_get/$1';
+$route['properties/(:num)']['GET'] = 'property/index_get/$1';
+$route['properties/(:num)']['DELETE'] = 'property/index_delete/$1';
+$route['properties/(:num)']['PUT'] = 'property/index_put/$1';
+
 // Category
 $route['category']['POST'] = 'category/index_post';
 $route['categories']['GET'] = 'category/index_get';
