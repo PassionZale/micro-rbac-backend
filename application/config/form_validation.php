@@ -121,5 +121,17 @@ $config = [
                 'matches' => '两次填写的密码不相同'
             )
         )
+    ),
+    
+    'brand' => array(
+        array(
+            'field' => 'name',
+            'label' => '用户名',
+            'rules' => 'trim|required',
+            'errors' => array(
+                'required' => '请填写%s',
+            )
+        ),
+        $sort
     )
 ];
