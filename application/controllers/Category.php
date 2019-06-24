@@ -14,15 +14,36 @@ class Category extends CI_Controller {
         if ($id) {
             $data = $this->CategoryModel->show(array("id" => $id));
         } else {
-            $data = $this->CategoryModel->all();
+            // 子分类分页查询
+            $params = $this->input->get();
+            $data = $this->CategoryModel->page_list($params);
         }
         $this->response->success($data);
     }
 
+    public function format_get($format = NULL) {
+        if (in_array($format, unserialize(FORMAT_GROUPS))) {
+            if ($format === "tree") {
+                $data = $this->CategoryModel->tree();
+            } else {
+                $data = $this->CategoryModel->all();
+            }
+            $this->response->success($data);
+        } else {
+            $this->response->not_found();
+        }
+    }
+
     public function index_post() {
         $data = $this->request->get_request_data();
-        $result = $this->CategoryModel->create($data);
-        $result ? $this->response->success() : $this->response->fail();
+        $this->form_validation->set_data($data);
+        if ($this->form_validation->run("category") === FALSE) {
+            $errors = $this->form_validation->error_array();
+            $this->response->fail(current($errors));
+        } else {
+            $result = $this->CategoryModel->create($data);
+            $result ? $this->response->success() : $this->response->fail();
+        }
     }
 
     public function index_put($id = NULL) {

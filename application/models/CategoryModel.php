@@ -3,6 +3,7 @@
 class CategoryModel extends CI_Model {
 
     protected $tableName = "category";
+    protected $relationTableName = "category_property";
 
     function __construct() {
         parent::__construct();
@@ -11,6 +12,30 @@ class CategoryModel extends CI_Model {
     public function all($condition = array()) {
         $query = $this->db->where($condition)->get($this->tableName);
         return $query->result_array();
+    }
+
+    public function page_list($params) {
+        $this->db->select("c.*, p.name as pname");
+        $this->db->from("$this->tableName as c");
+        $this->db->where("c.pid >", 0);
+        (isset($params["pid"]) && $params["pid"] != FALSE) && $this->db->where("c.pid", $params["pid"]);
+        isset($params["name"]) && $this->db->like("c.name", $params["name"]);
+        $total = $this->db->count_all_results("", FALSE);
+        $this->db->order_by("created_at", "DESC");
+        $this->db->limit($params["pageSize"], ($params["page"] - 1) * $params["pageSize"]);
+        $this->db->join("$this->tableName as p", "p.id = c.pid");
+        $list = $this->db->get()->result_array();
+        return ["total" => $total, "list" => $list, "page" => $params["page"], "pageSize" => $params["pageSize"]];
+    }
+
+    public function tree() {
+        $categories = $this->db->select("id, name as title")->where("pid", 0)->order_by("created_at", "DESC")->get($this->tableName)->result_array();
+        $result = [];
+        foreach ($categories as $category) {
+            $category["children"] = [];
+            $result[] = $category;
+        }
+        return $result;
     }
 
     public function show($condition = array()) {
@@ -24,8 +49,31 @@ class CategoryModel extends CI_Model {
     }
 
     public function create($data = array()) {
-        $data["created_at"] = time();
-        return $this->db->insert($this->tableName, $data);
+        $category = array(
+            "name" => $data["name"],
+            "pid" => $data["pid"],
+            "created_at" => time(),
+        );
+
+        $result = $this->db->insert($this->tableName, $category);
+
+        if (!$result) {
+            return FALSE;
+        }
+
+        $categoryId = $this->db->insert_id();
+
+        if ($data["pid"] > 0 && isset($data["propertyIds"]) && count($data["propertyIds"]) > 0) {
+            foreach ($data["propertyIds"] as $propertyId) {
+                $categoryProperty = array(
+                    "category_id" => $categoryId,
+                    "property_id" => $propertyId
+                );
+                $this->db->insert($this->relationTableName, $categoryProperty);
+            }
+        }
+
+        return TRUE;
     }
 
     public function delete($id) {

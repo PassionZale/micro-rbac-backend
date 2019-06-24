@@ -157,4 +157,22 @@ $config = [
             )
         ),
     ),
+    'category' => array(
+        array(
+            'field' => 'name',
+            'label' => '分类名称',
+            'rules' => 'trim|required',
+            'errors' => array(
+                'required' => '请填写%s',
+            )
+        ),
+        array(
+            'field' => 'pid',
+            'label' => '父分类',
+            'rules' => 'trim|required',
+            'errors' => array(
+                'required' => '请指定%s',
+            ),
+        ),
+    )
 ];
