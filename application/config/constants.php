@@ -85,4 +85,4 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 // PHP 7 可以直接将常量定义为数据, 其他版本不支持, 因此采用 serialize 序列化数组, 使用该常量时, 使用 unserialize(FORMAT_GROUPS) 获取数组
-defined('FORMAT_GROUPS')       OR define('FORMAT_GROUPS', serialize(array('tree', 'checkbox', 'select')));
+defined('FORMAT_GROUPS')       OR define('FORMAT_GROUPS', serialize(array('tree', 'checkbox', 'select', 'cascader')));

@@ -25,6 +25,8 @@ class Category extends CI_Controller {
         if (in_array($format, unserialize(FORMAT_GROUPS))) {
             if ($format === "tree") {
                 $data = $this->CategoryModel->tree();
+            } elseif ($format === "cascader") {
+                $data = $this->CategoryModal->cascader();
             } else {
                 $data = $this->CategoryModel->all();
             }

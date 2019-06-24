@@ -27,6 +27,9 @@ class CategoryModel extends CI_Model {
         $list = $this->db->get()->result_array();
         return ["total" => $total, "list" => $list, "page" => $params["page"], "pageSize" => $params["pageSize"]];
     }
+    
+    public function cascader() {}
+    
 
     public function tree() {
         $categories = $this->db->select("id, name as title")->where("pid", 0)->order_by("created_at", "DESC")->get($this->tableName)->result_array();

@@ -20,6 +20,15 @@ class Brand extends CI_Controller {
         $this->response->success($data);
     }
 
+    public function format_get($format = NULL) {
+        if (in_array($format, unserialize(FORMAT_GROUPS))) {
+            $data = $this->BrandModel->all();
+            $this->response->success($data);
+        } else {
+            $this->response->not_found();
+        }
+    }
+
     public function index_post() {
         $data = $this->request->get_request_data();
         $this->form_validation->set_data($data);
