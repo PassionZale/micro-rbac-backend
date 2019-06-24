@@ -49,6 +49,13 @@ $route['properties/(:num)']['GET'] = 'property/index_get/$1';
 $route['properties/(:num)']['DELETE'] = 'property/index_delete/$1';
 $route['properties/(:num)']['PUT'] = 'property/index_put/$1';
 
+// Property Value
+$route['property/value']['POST'] = 'propertyValue/index_post';
+$route['property/values']['GET'] = 'propertyValue/index_get';
+$route['property/values/(:num)']['GET'] = 'propertyValue/index_get/$1';
+$route['property/values/(:num)']['DELETE'] = 'propertyValue/index_delete/$1';
+$route['property/values/(:num)']['PUT'] = 'propertyValue/index_put/$1';
+
 // Category
 $route['category']['POST'] = 'category/index_post';
 $route['categories']['GET'] = 'category/index_get';

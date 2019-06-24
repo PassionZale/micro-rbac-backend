@@ -39,7 +39,6 @@ $config = [
             )
         )
     ),
-    
     'role' => array(
         array(
             'field' => 'name',
@@ -58,7 +57,6 @@ $config = [
             )
         )
     ),
-    
     'user_create' => array(
         array(
             'field' => 'username',
@@ -89,7 +87,6 @@ $config = [
             )
         )
     ),
-    
     'user_update' => array(
         array(
             'field' => 'username',
@@ -101,7 +98,6 @@ $config = [
             )
         )
     ),
-    
     'user_password_update' => array(
         array(
             'field' => 'password',
@@ -122,7 +118,6 @@ $config = [
             )
         )
     ),
-    
     'brand' => array(
         array(
             'field' => 'name',
@@ -134,7 +129,6 @@ $config = [
         ),
         $sort
     ),
-    
     'property' => array(
         array(
             'field' => 'name',
@@ -144,5 +138,23 @@ $config = [
                 'required' => '请填写%s',
             )
         ),
-    )
+    ),
+    'property_value' => array(
+        array(
+            'field' => 'name',
+            'label' => '属性名称',
+            'rules' => 'trim|required',
+            'errors' => array(
+                'required' => '请填写%s',
+            )
+        ),
+        array(
+            'field' => 'property_id',
+            'label' => '属性组',
+            'rules' => 'trim|required',
+            'errors' => array(
+                'required' => '从属%s不能为空',
+            )
+        ),
+    ),
 ];

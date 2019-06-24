@@ -18,12 +18,6 @@ class Migration_Create_Property_Table extends CI_Migration {
                 'type' => 'VARCHAR',
                 'constraint' => 255,
             ),
-            'sort' => array(
-                'comment' => '排序',
-                'type' => 'INT',
-                'constraint' => 11,
-                'default' => 0
-            ),
             'created_at' => array(
                 'comment' => '创建时间',
                 'type' => 'BIGINT',

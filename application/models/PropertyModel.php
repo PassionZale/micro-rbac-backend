@@ -33,6 +33,17 @@ class PropertyModel extends CI_Model {
         $list = $this->db->get()->result_array();
         return ["total" => $total, "list" => $list, "page" => $params["page"], "pageSize" => $params["pageSize"]];
     }
+    
+    public function values_page_list($params = array()) {
+        $this->db->select("*");
+        $this->db->from("property_value");
+        isset($params["name"]) && $this->db->like("name", $params["name"]);
+        $total = $this->db->count_all_results("", FALSE);
+        $this->db->order_by("created_at", "DESC");
+        $this->db->limit($params["pageSize"], ($params["page"] - 1) * $params["pageSize"]);
+        $list = $this->db->get()->result_array();
+        return ["total" => $total, "list" => $list, "page" => $params["page"], "pageSize" => $params["pageSize"]];
+    }
 
     public function show($condition = array()) {
         $query = $this->db->where($condition)->get($this->tableName);
