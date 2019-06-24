@@ -48,8 +48,14 @@ class Category extends CI_Controller {
 
     public function index_put($id = NULL) {
         $data = $this->request->get_request_data();
-        $result = $this->CategoryModel->update($id, $data);
-        $result ? $this->response->success() : $this->response->fail();
+        $this->form_validation->set_data($data);
+        if ($this->form_validation->run("category") === FALSE) {
+            $errors = $this->form_validation->error_array();
+            $this->response->fail(current($errors));
+        } else {
+            $result = $this->CategoryModel->update($id, $data);
+            $result ? $this->response->success() : $this->response->fail();
+        }
     }
 
     public function index_delete($id = NULL) {

@@ -39,13 +39,44 @@ class CategoryModel extends CI_Model {
     }
 
     public function show($condition = array()) {
-        $query = $this->db->where($condition)->get($this->tableName);
-        return $query->row_array();
+        $category = $this->db->where($condition)->get($this->tableName)->row_array();
+        $categoryProperties = $this->db->where("category_id", $condition["id"])->get($this->relationTableName)->result_array();
+        $category["propertyIds"] = [];
+        if (count($categoryProperties) > 0) {
+            foreach ($categoryProperties as $categoryProperty) {
+                $category["propertyIds"][] = $categoryProperty["property_id"];
+            }
+        }
+        return $category;
     }
 
     public function update($id, $data) {
-        $data["updated_at"] = time();
-        return $this->db->where("id", $id)->update($this->tableName, $data);
+
+        $category = array(
+            "name" => $data["name"],
+            "pid" => $data["pid"],
+            "updated_at" => time(),
+        );
+
+        $result = $this->db->where("id", $id)->update($this->tableName, $category);
+        if (!$result) {
+            return FALSE;
+        }
+
+        if ($data["pid"] > 0 && isset($data["propertyIds"])) {
+            $this->db->where("category_id", $id)->delete($this->relationTableName);
+            if (count($data["propertyIds"]) > 0) {
+                foreach ($data["propertyIds"] as $propertyId) {
+                    $categoryProperty = array(
+                        "category_id" => $id,
+                        "property_id" => $propertyId
+                    );
+                    $this->db->insert($this->relationTableName, $categoryProperty);
+                }
+            }
+        }
+
+        return TRUE;
     }
 
     public function create($data = array()) {
