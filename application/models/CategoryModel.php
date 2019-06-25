@@ -27,9 +27,28 @@ class CategoryModel extends CI_Model {
         $list = $this->db->get()->result_array();
         return ["total" => $total, "list" => $list, "page" => $params["page"], "pageSize" => $params["pageSize"]];
     }
-    
-    public function cascader() {}
-    
+
+    public function cascader() {
+        $this->db->select("id as value, name as label");
+        $this->db->where("pid", 0);
+        $this->db->from($this->tableName);
+        $categories = $this->db->get()->result_array();
+
+        $result = [];
+
+        foreach ($categories as $key => $category) {
+            $children = $this->db->select("id as value, name as label")->where("pid", $category["value"])->from($this->tableName)->get()->result_array();
+            if (count($children)) {
+                foreach ($children as $i => $v) {
+                    $children[$i]["children"] = [];
+                }
+                $category["children"] = $children;
+                $result[] = $category;
+            }
+        }
+
+        return $result;
+    }
 
     public function tree() {
         $categories = $this->db->select("id, name as title")->where("pid", 0)->order_by("created_at", "DESC")->get($this->tableName)->result_array();
@@ -41,6 +60,24 @@ class CategoryModel extends CI_Model {
         return $result;
     }
 
+    public function property($category_id) {
+        $propertyIds = $this->db->select("property_id")->where("category_id", $category_id)->get($this->relationTableName)->result_array();
+        $ids = [];
+        foreach($propertyIds as $id) {
+            $ids[] = $id["property_id"];
+        }
+        
+        $result = [];
+        
+        $properties = $this->db->select("id as property_id, name as property_name")->where_in("id", $ids)->get("property")->result_array();
+        foreach ($properties as $property) {
+            $property["property_values"] = $this->db->select("id as property_value_id, name as property_value_name")->where("property_id", $property["property_id"])->get("property_value")->result_array();
+            $result[] = $property;
+        }
+        
+        return $result;
+    }
+    
     public function show($condition = array()) {
         $category = $this->db->where($condition)->get($this->tableName)->row_array();
         $categoryProperties = $this->db->where("category_id", $condition["id"])->get($this->relationTableName)->result_array();

@@ -26,7 +26,7 @@ class Category extends CI_Controller {
             if ($format === "tree") {
                 $data = $this->CategoryModel->tree();
             } elseif ($format === "cascader") {
-                $data = $this->CategoryModal->cascader();
+                $data = $this->CategoryModel->cascader();
             } else {
                 $data = $this->CategoryModel->all();
             }
@@ -34,6 +34,11 @@ class Category extends CI_Controller {
         } else {
             $this->response->not_found();
         }
+    }
+    
+    public function property_get($id) {
+        $data = $this->CategoryModel->property($id);
+        $this->response->success($data);
     }
 
     public function index_post() {

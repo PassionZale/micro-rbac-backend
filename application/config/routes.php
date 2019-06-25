@@ -61,6 +61,7 @@ $route['property/values/(:num)']['PUT'] = 'propertyValue/index_put/$1';
 $route['category']['POST'] = 'category/index_post';
 $route['categories']['GET'] = 'category/index_get';
 $route['categories/format/(:any)']['GET'] = 'category/format_get/$1';
+$route['categories/(:num)/properties']['GET'] = 'category/property_get/$1';
 $route['categories/(:num)']['GET'] = 'category/index_get/$1';
 $route['categories/(:num)']['DELETE'] = 'category/index_delete/$1';
 $route['categories/(:num)']['PUT'] = 'category/index_put/$1';
