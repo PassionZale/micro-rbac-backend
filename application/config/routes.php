@@ -64,3 +64,10 @@ $route['categories/format/(:any)']['GET'] = 'category/format_get/$1';
 $route['categories/(:num)']['GET'] = 'category/index_get/$1';
 $route['categories/(:num)']['DELETE'] = 'category/index_delete/$1';
 $route['categories/(:num)']['PUT'] = 'category/index_put/$1';
+
+// Product
+$route['product']['POST'] = 'product/index_post';
+$route['products']['GET'] = 'product/index_get';
+$route['products/(:num)']['GET'] = 'product/index_get/$1';
+$route['products/(:num)']['DELETE'] = 'product/index_delete/$1';
+$route['products/(:num)']['PUT'] = 'product/index_put/$1';
