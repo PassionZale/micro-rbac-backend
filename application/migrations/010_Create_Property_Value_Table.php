@@ -19,7 +19,7 @@ class Migration_Create_Property_Value_Table extends CI_Migration {
                 'constraint' => 11,
             ),
             'name' => array(
-                'comment' => '属性名称',
+                'comment' => '规格名称',
                 'type' => 'VARCHAR',
                 'constraint' => 255,
             ),

@@ -174,5 +174,31 @@ $config = [
                 'required' => '请指定%s',
             ),
         ),
+    ),
+    'product' => array(
+        array(
+            'field' => 'name',
+            'label' => '商品名称',
+            'rules' => 'trim|required',
+            'errors' => array(
+                'required' => '请填写%s',
+            )
+        ),
+        array(
+            'field' => 'brand_id',
+            'label' => '商品品牌',
+            'rules' => 'trim|required|is_natural',
+            'errors' => array(
+                'required' => '请选择%s'
+            )
+        ),
+        array(
+            'field' => 'category_id',
+            'label' => '商品分类',
+            'rules' => 'trim|required|is_natural',
+            'errors' => array(
+                'required' => '请选择%s'
+            )
+        ),
     )
 ];
