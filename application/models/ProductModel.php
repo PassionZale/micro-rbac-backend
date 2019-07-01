@@ -44,8 +44,50 @@ class ProductModel extends CI_Model {
     }
 
     public function update($id, $data) {
-        $data["updated_at"] = time();
-        return $this->db->where("id", $id)->update($this->tableName, $data);
+
+        $product = array(
+            "name" => $data["name"],
+            "brand_id" => $data["brand_id"],
+            "category_id" => $data["category_id"],
+            "updated_at" => time()
+        );
+
+        $result = $this->db->where("id", $id)->update($this->tableName, $product);
+
+        if (!$result) {
+            return FALSE;
+        }
+
+        $productSkus = $this->db->where("product_id", $id)->get("product_sku")->result_array();
+        $productSkuIds = [];
+        foreach ($productSkus as $sku) {
+            $productSkuIds[] = $sku["id"];
+        }
+
+        $this->db->where_in("id", $productSkuIds)->delete("product_sku");
+        $this->db->where_in("product_sku_id", $productSkuIds)->delete("product_sku_property");
+
+        foreach ($data["skus"] as $sku) {
+            $product_sku = array(
+                "product_id" => $id,
+                "stock" => $sku["stock"],
+                "price" => $sku["price"],
+            );
+            $result = $this->db->insert("product_sku", $product_sku);
+
+            if (!$result) {
+                return FALSE;
+            }
+
+            $product_sku_id = $this->db->insert_id();
+
+            foreach ($sku["properties"] as $product_sku_property) {
+                $product_sku_property["product_sku_id"] = $product_sku_id;
+                $this->db->insert("product_sku_property", $product_sku_property);
+            }
+        }
+        
+        return TRUE;
     }
 
     public function create($data = array()) {
