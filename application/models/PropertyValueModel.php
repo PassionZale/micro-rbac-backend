@@ -42,7 +42,8 @@ class PropertyValueModel extends CI_Model {
 
     public function create($data = array()) {
         $data["created_at"] = time();
-        return $this->db->insert($this->tableName, $data);
+        $this->db->insert($this->tableName, $data);
+        return $this->db->insert_id();
     }
 
     public function delete($id) {

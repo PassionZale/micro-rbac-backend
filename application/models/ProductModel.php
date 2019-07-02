@@ -37,7 +37,7 @@ class ProductModel extends CI_Model {
         $skus = $this->db->where("product_id", $product["id"])->get("product_sku")->result_array();
         foreach ($skus as $sku) {
             $sku["name"] = $product["name"];
-            $sku["properties"] = $this->db->where("product_sku_id", $sku["id"])->get("product_sku_property")->result_array();
+            $sku["properties"] = $this->db->where("product_sku_id", $sku["id"])->order_by("id", "ASC")->get("product_sku_property")->result_array();
             $product["skus"][] = $sku;
         }
         return $product;
@@ -86,7 +86,7 @@ class ProductModel extends CI_Model {
                 $this->db->insert("product_sku_property", $product_sku_property);
             }
         }
-        
+
         return TRUE;
     }
 

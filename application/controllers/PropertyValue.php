@@ -29,7 +29,7 @@ class PropertyValue extends CI_Controller {
             $this->response->fail(current($errors));
         } else {
             $result = $this->PropertyValueModel->create($data);
-            $result ? $this->response->success() : $this->response->fail();
+            $result ? $this->response->success($result) : $this->response->fail();
         }
     }
 
