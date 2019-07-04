@@ -9,7 +9,7 @@ class AuthPermission extends CI_Model {
     }
 
     public function all($condition = array()) {
-        $query = $this->db->where($condition)->order_by("created_at", "DESC")->get($this->tableName);
+        $query = $this->db->where($condition)->get($this->tableName);
         return $query->result_array();
     }
 
