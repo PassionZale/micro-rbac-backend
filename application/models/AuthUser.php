@@ -30,8 +30,16 @@ class AuthUser extends CI_Model {
     public function show($condition = array(), $password = FALSE) {
         $arguments = "id, username, is_active, is_superuser, created_at, updated_at";
         $password && ($arguments .= ", password");
-        $query = $this->db->select($arguments)->where($condition)->get($this->tableName);
-        return $query->row_array();
+        $data = $this->db->select($arguments)->where($condition)->get($this->tableName)->row_array();
+        $data["roleIds"] = [];
+        $roles = $this->db->select("role_id")->where("user_id", $data["id"])->get($this->relationTableName)->result_array();
+        if (count($roles)) {
+            foreach ($roles as $role) {
+                $data["roleIds"][] = $role["role_id"];
+            }
+        }
+
+        return $data;
     }
 
     public function create($data, $is_superuser = FALSE) {
@@ -124,7 +132,7 @@ class AuthUser extends CI_Model {
             return TRUE;
         }
     }
-    
+
     public function update_password($id, $password) {
         $options = ['cost' => 8];
         $pwd_hash = password_hash($password, PASSWORD_DEFAULT, $options);
@@ -137,7 +145,8 @@ class AuthUser extends CI_Model {
 
     public function userinfo($id) {
         // 查询用户信息
-        $data = self::show(array("id" => $id));
+        $data = $this->db->select("id, username, is_active, is_superuser, created_at, updated_at")
+                        ->where("id", $id)->get($this->tableName)->row_array();
 
         // 查询角色信息
         $this->db->select("ar.id, ar.name, ar.code");
