@@ -23,7 +23,7 @@ class PermissionHook {
             if (!$user["is_superuser"] == 1) {
                 // 判断账户禁用状态
                 if (!$user["is_active"] == 1) {
-                    exit_json_response(403, 11000, "账户被禁用", "response by PERMISSION hook");
+                    exit_json_response(403, 10001, "账户被禁用", "response by PERMISSION hook");
                 } else {
                     // 判断是否包含所需要的权限
                     $method = $this->CI->request->get_request_method();
@@ -35,7 +35,7 @@ class PermissionHook {
                         $valid = self::has_permission($user["permissions"], $permission_route);
                         if (!$valid) {
                             $permission_need = $this->CI->AuthPermission->show(array("route" => $permission_route));
-                            exit_json_response(403, 11000, '权限不足,此操作需要权限:' . $permission_need['name'], "response by PERMISSION hook");
+                            exit_json_response(403, 10001, '权限不足,此操作需要权限:' . $permission_need['name'], "response by PERMISSION hook");
                         }
                     }
                 }

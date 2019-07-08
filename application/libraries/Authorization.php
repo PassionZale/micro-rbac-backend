@@ -42,7 +42,7 @@ class Authorization {
             throw new Exception($e->getMessage(), 11003);
         } catch (Exception $e) {
             //其他错误
-            throw new Exception($e->getMessage(), 11000);
+            throw new Exception($e->getMessage(), 11004);
         }
     }
 
