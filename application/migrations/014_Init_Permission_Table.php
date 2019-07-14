@@ -27,10 +27,10 @@ class Migration_Init_Permission_Table extends CI_Migration {
             array('name' => '删除品牌', 'code' => 'can delete brand', 'route' => 'delete.brand', 'created_at' => time()),
             array('name' => '查询品牌', 'code' => 'can select brand', 'route' => 'get.brand', 'created_at' => time()),
             // Property
-            array('name' => '创建属性/规格', 'code' => 'can create property', 'route' => 'post.property', 'created_at' => time()),
-            array('name' => '编辑属性/规格', 'code' => 'can update property', 'route' => 'put.property', 'created_at' => time()),
-            array('name' => '删除属性/规格', 'code' => 'can delete property', 'route' => 'delete.property', 'created_at' => time()),
-            array('name' => '查询属性/规格', 'code' => 'can select property', 'route' => 'get.property', 'created_at' => time()),
+            array('name' => '创建属性', 'code' => 'can create property', 'route' => 'post.property', 'created_at' => time()),
+            array('name' => '编辑属性', 'code' => 'can update property', 'route' => 'put.property', 'created_at' => time()),
+            array('name' => '删除属性', 'code' => 'can delete property', 'route' => 'delete.property', 'created_at' => time()),
+            array('name' => '查询属性', 'code' => 'can select property', 'route' => 'get.property', 'created_at' => time()),
             // Category
             array('name' => '创建分类', 'code' => 'can create category', 'route' => 'post.category', 'created_at' => time()),
             array('name' => '编辑分类', 'code' => 'can update category', 'route' => 'put.category', 'created_at' => time()),
