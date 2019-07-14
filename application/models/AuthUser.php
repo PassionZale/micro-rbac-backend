@@ -31,11 +31,13 @@ class AuthUser extends CI_Model {
         $arguments = "id, username, is_active, is_superuser, created_at, updated_at";
         $password && ($arguments .= ", password");
         $data = $this->db->select($arguments)->where($condition)->get($this->tableName)->row_array();
-        $data["roleIds"] = [];
-        $roles = $this->db->select("role_id")->where("user_id", $data["id"])->get($this->relationTableName)->result_array();
-        if (count($roles)) {
-            foreach ($roles as $role) {
-                $data["roleIds"][] = $role["role_id"];
+        if ($data) {
+            $data["roleIds"] = [];
+            $roles = $this->db->select("role_id")->where("user_id", $data["id"])->get($this->relationTableName)->result_array();
+            if (count($roles)) {
+                foreach ($roles as $role) {
+                    $data["roleIds"][] = $role["role_id"];
+                }
             }
         }
 
